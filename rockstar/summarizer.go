@@ -62,12 +62,18 @@ func repositoryNameMaxLength(repositories Repositories, number int) (length int)
 }
 
 func github() *gothub.GitHub {
+	guestClient, _ := gothub.Guest()
+	if guestClient != nil {
+		return guestClient
+	}
+
 	if !authenticated() {
 		authenticate()
 	}
+	//FIXME: Support Two Factor Authentication
+	loginClient, _ := gothub.BasicLogin(usernameAndPassword())
 
-	github, _ := gothub.BasicLogin(usernameAndPassword())
-	return github
+	return loginClient
 }
 
 type Repositories []gothub.Repository
