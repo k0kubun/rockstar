@@ -58,3 +58,7 @@ func authenticate() {
 	fmt.Fprintf(file, "%s\n", username)
 	fmt.Fprintf(file, "%s\n", password)
 }
+
+func deauthenticate() {
+	os.Remove(configFilePath())
+}
