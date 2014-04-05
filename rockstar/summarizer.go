@@ -78,6 +78,7 @@ func github() *gothub.GitHub {
 	}
 
 	if !authenticated() {
+		fmt.Println("Guest API Limit exceeded.")
 		authenticate()
 	}
 	//FIXME: Support Two Factor Authentication
