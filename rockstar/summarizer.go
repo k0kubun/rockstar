@@ -14,13 +14,17 @@ func ShowSummarization(username string) {
 	sort.Sort(repositories)
 
 	user, _ := github().GetUser(username)
-	fmt.Printf("★ %d %s (%s)\n\n", starCountOf(repositories), user.Name, username)
+	fmt.Printf("★ %d %s (%s)", starCountOf(repositories), user.Name, username)
+	fmt.Printf("  %d Repositories\n\n", len(repositories))
 
-	starLabelWidth := len(fmt.Sprintf("%d", repositories[0].WatchersCount)) + 1
-	format := fmt.Sprintf("★%%%dd %%s\n", starLabelWidth)
-	for i := 0; i < 10 && i < len(repositories); i++ {
+	numberToShow := 10
+	starLabelWidth := len(fmt.Sprintf("%d", repositories[0].WatchersCount))
+	nameLabelWidth := repositoryNameMaxLength(repositories, numberToShow)
+	format := fmt.Sprintf("★ %%%dd %%-%ds %%s\n", starLabelWidth, nameLabelWidth)
+
+	for i := 0; i < numberToShow && i < len(repositories); i++ {
 		repository := repositories[i]
-		fmt.Printf(format, repository.WatchersCount, repository.Name)
+		fmt.Printf(format, repository.WatchersCount, repository.Name, repository.Language)
 	}
 	fmt.Println()
 }
@@ -43,6 +47,16 @@ func repositoriesOf(username string) (repositories Repositories) {
 		}
 		repositories = append(repositories, paginatedRepositories...)
 		page++
+	}
+	return
+}
+
+func repositoryNameMaxLength(repositories Repositories, number int) (length int) {
+	for i := 0; i < number && i < len(repositories); i++ {
+		currentLength := len(repositories[i].Name)
+		if length < currentLength {
+			length = currentLength
+		}
 	}
 	return
 }
