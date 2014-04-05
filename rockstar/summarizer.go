@@ -3,7 +3,6 @@ package rockstar
 import (
 	"fmt"
 	"github.com/k0kubun/gothub"
-	"log"
 	"os"
 	"sort"
 )
@@ -102,30 +101,6 @@ func repositoryNameMaxLength(repositories Repositories, number int) (length int)
 		}
 	}
 	return
-}
-
-func github() *gothub.GitHub {
-	guestClient, _ := gothub.Guest()
-	if guestClient != nil {
-		return guestClient
-	}
-
-	if !authenticated() {
-		fmt.Println("Guest API Limit exceeded.")
-		authenticate()
-	}
-
-	loginClient, err := gothub.BasicLogin(usernameAndPassword())
-	if err != nil {
-		deauthenticate()
-
-		//FIXME: Support Two Factor Authentication
-		fmt.Println("Login failed. It seems that password is wrong or you use two factor authentication.")
-		fmt.Println("I'm sorry but two factor authentication is not supported now.")
-		log.Fatal(err)
-	}
-
-	return loginClient
 }
 
 type Repositories []gothub.Repository
