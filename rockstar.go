@@ -1,7 +1,7 @@
 package main
 
 import (
-	"./rockstar"
+	"./summarizer"
 	"flag"
 	"fmt"
 )
@@ -13,7 +13,7 @@ func main() {
 		printUsage()
 	} else {
 		username := flag.Arg(0)
-		rockstar.ShowSummarization(username)
+		summarizer.ShowSummarization(username)
 	}
 }
 

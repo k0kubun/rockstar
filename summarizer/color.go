@@ -1,4 +1,4 @@
-package rockstar
+package summarizer
 
 import (
 	"github.com/wsxiaoys/terminal/color"
