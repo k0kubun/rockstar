@@ -3,6 +3,7 @@ package rockstar
 import (
 	"fmt"
 	"github.com/k0kubun/gothub"
+	"os"
 	"sort"
 )
 
@@ -13,7 +14,7 @@ func ShowSummarization(username string) {
 	}
 	sort.Sort(repositories)
 
-	user, _ := github().GetUser(username)
+	user := getUser(username)
 	fmt.Printf("★ %d %s (%s)\n", starCountOf(repositories), user.Name, username)
 	fmt.Printf("%d repos, %d following, %d followers\n\n", len(repositories), user.Following, user.Followers)
 
@@ -29,6 +30,15 @@ func ShowSummarization(username string) {
 	fmt.Println()
 }
 
+func getUser(username string) *gothub.User {
+	user, err := github().GetUser(username)
+	if err != nil {
+		fmt.Printf("%s does not exist\n", username)
+		os.Exit(1)
+	}
+	return user
+}
+
 func starCountOf(repositories Repositories) (count int) {
 	for _, repository := range repositories {
 		count += repository.WatchersCount
@@ -37,7 +47,7 @@ func starCountOf(repositories Repositories) (count int) {
 }
 
 func repositoriesOf(username string) (repositories Repositories) {
-	user, _ := github().GetUser(username)
+	user := getUser(username)
 
 	page := 1
 	for {
