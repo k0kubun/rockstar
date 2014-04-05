@@ -1,9 +1,26 @@
 package rockstar
 
 import (
-	"fmt"
 	"github.com/wsxiaoys/terminal/color"
 )
+
+func coloredUser(text string, star int) string {
+	if star > 10000 {
+		return levelPrint(text, 6)
+	} else if star > 5000 {
+		return levelPrint(text, 5)
+	} else if star > 1000 {
+		return levelPrint(text, 4)
+	} else if star > 100 {
+		return levelPrint(text, 3)
+	} else if star > 50 {
+		return levelPrint(text, 2)
+	} else if star > 10 {
+		return levelPrint(text, 1)
+	} else {
+		return levelPrint(text, 0)
+	}
+}
 
 func levelPrint(text string, level int) string {
 	switch level {
@@ -21,18 +38,28 @@ func levelPrint(text string, level int) string {
 		return magentaPrint(text)
 	case 6:
 		return redPrint(text)
+	default:
+		return whitePrint(text)
 	}
-	return whitePrint(text)
 }
 
-func colorTest() {
-	fmt.Printf("%s", levelPrint("level", 6))
-	fmt.Printf("%s", levelPrint("level", 5))
-	fmt.Printf("%s", levelPrint("level", 4))
-	fmt.Printf("%s", levelPrint("level", 3))
-	fmt.Printf("%s", levelPrint("level", 2))
-	fmt.Printf("%s", levelPrint("level", 1))
-	fmt.Printf("%s", levelPrint("level", 0))
+func coloredLanguage(language string) string {
+	switch language {
+	case "Ruby", "C++":
+		return redPrint(language)
+	case "JavaScript":
+		return magentaPrint(language)
+	case "Go":
+		return yellowPrint(language)
+	case "Scala", "C":
+		return greenPrint(language)
+	case "Shell", "PHP":
+		return bluePrint(language)
+	case "Perl", "Objective-C":
+		return cyanPrint(language)
+	default:
+		return whitePrint(language)
+	}
 }
 
 func blackPrint(text string) string {
