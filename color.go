@@ -5,11 +5,11 @@ import (
 )
 
 func coloredUser(text string, star int) string {
-	if star >= 10000 {
+	if star >= 5000 {
 		return levelPrint(text, 6)
-	} else if star >= 5000 {
+	} else if star >= 2000 {
 		return levelPrint(text, 5)
-	} else if star >= 1000 {
+	} else if star >= 500 {
 		return levelPrint(text, 4)
 	} else if star >= 100 {
 		return levelPrint(text, 3)
