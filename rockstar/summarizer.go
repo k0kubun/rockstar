@@ -40,10 +40,13 @@ func ShowSummarization(username string) {
 func summarizeLanguages(repositories Repositories) {
 	countByLanguage := map[string]int{}
 	for _, repository := range repositories {
-		countByLanguage[repository.Language]++
+		if repository.Language != "" {
+			countByLanguage[repository.Language]++
+		}
 	}
 
-	for i := 0; i < 3 && i < len(countByLanguage); i++ {
+	languageCount := len(countByLanguage)
+	for i := 0; i < 3 && i < languageCount; i++ {
 		dumpMaxCoverage(countByLanguage, len(repositories))
 		if i != 2 && i != len(countByLanguage)-1 {
 			fmt.Printf(", ")
@@ -56,7 +59,7 @@ func dumpMaxCoverage(countByLanguage map[string]int, numOfRepositories int) {
 	var maxCount int = -1
 
 	for language, count := range countByLanguage {
-		if maxCount < count && language != "" {
+		if maxCount < count {
 			maxCount = count
 			maxCountLanguage = language
 		}
