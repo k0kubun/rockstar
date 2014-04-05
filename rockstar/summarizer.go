@@ -14,8 +14,8 @@ func ShowSummarization(username string) {
 	sort.Sort(repositories)
 
 	user, _ := github().GetUser(username)
-	fmt.Printf("★ %d %s (%s)", starCountOf(repositories), user.Name, username)
-	fmt.Printf("  %d Repositories\n\n", len(repositories))
+	fmt.Printf("★ %d %s (%s)\n", starCountOf(repositories), user.Name, username)
+	fmt.Printf("%d repos, %d following, %d followers\n\n", len(repositories), user.Following, user.Followers)
 
 	numberToShow := 10
 	starLabelWidth := len(fmt.Sprintf("%d", repositories[0].WatchersCount))
