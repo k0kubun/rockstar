@@ -1,9 +1,9 @@
 package main
 
 import (
-	"./summarizer"
 	"flag"
 	"fmt"
+	"github.com/k0kubun/rockstar/summarizer"
 )
 
 func main() {
