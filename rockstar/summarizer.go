@@ -25,11 +25,14 @@ func ShowSummarization(username string) {
 	numberToShow := 10
 	starLabelWidth := len(fmt.Sprintf("%d", repositories[0].WatchersCount))
 	nameLabelWidth := repositoryNameMaxLength(repositories, numberToShow)
-	format := fmt.Sprintf("★ %%%dd %%-%ds %%s\n", starLabelWidth, nameLabelWidth)
+	format := fmt.Sprintf("★ %%%dd %%-%ds", starLabelWidth, nameLabelWidth)
 
 	for i := 0; i < numberToShow && i < len(repositories); i++ {
 		repository := repositories[i]
-		fmt.Printf(format, repository.WatchersCount, repository.Name, coloredLanguage(repository.Language))
+		starCount = repository.WatchersCount
+		repositoryLabel := fmt.Sprintf(format, starCount, repository.Name)
+		fmt.Printf(coloredRepository(repositoryLabel, starCount))
+		fmt.Printf(" %s\n", repository.Language)
 	}
 	fmt.Println()
 }
@@ -61,7 +64,7 @@ func dumpMaxCoverage(countByLanguage map[string]int, numOfRepositories int) {
 	delete(countByLanguage, maxCountLanguage)
 
 	coverage := 100.0 * float32(maxCount) / float32(numOfRepositories)
-	fmt.Printf("%s: %.1f%%", coloredLanguage(maxCountLanguage), coverage)
+	fmt.Printf("%s: %.1f%%", maxCountLanguage, coverage)
 }
 
 func getUser(username string) *gothub.User {
