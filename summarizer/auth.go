@@ -2,11 +2,12 @@ package summarizer
 
 import (
 	"fmt"
-	"github.com/gcmurphy/getpass"
-	"github.com/k0kubun/gothub"
 	"log"
 	"os"
 	"os/user"
+
+	"github.com/k0kubun/gothub"
+	"golang.org/x/crypto/ssh/terminal"
 )
 
 func github() *gothub.GitHub {
@@ -69,7 +70,7 @@ func authenticate() {
 
 	fmt.Printf("Username: ")
 	fmt.Scanf("%s", &username)
-	password, _ = getpass.GetPass()
+	password = getPass()
 	fmt.Println()
 
 	file, err := os.OpenFile(configFilePath(), os.O_CREATE|os.O_WRONLY, 0600)
@@ -86,4 +87,14 @@ func authenticate() {
 
 func deauthenticate() {
 	os.Remove(configFilePath())
+}
+
+func getPass() string {
+	fmt.Print("Password: ")
+	pass, err := terminal.ReadPassword(int(os.Stdin.Fd()))
+	if err != nil {
+		panic(err)
+	}
+	println()
+	return string(pass)
 }
